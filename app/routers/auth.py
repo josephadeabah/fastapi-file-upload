@@ -7,10 +7,11 @@ from app.utils.dependencies import get_db
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
-# Register user
+
 @router.post("/register", response_model=UserOut)
 def register(user: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
+
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
 
@@ -18,12 +19,14 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
         email=user.email,
         password=hash_password(user.password)
     )
+
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+
     return new_user
 
-# Login user
+
 @router.post("/login")
 def login(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()
@@ -35,4 +38,5 @@ def login(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Wrong password")
 
     token = create_access_token({"user_id": db_user.id})
+
     return {"access_token": token, "token_type": "bearer"}

@@ -4,7 +4,7 @@ from fastapi import UploadFile
 from app.config import UPLOAD_DIR
 
 def save_file(file: UploadFile):
-    os.makedirs(UPLOAD_DIR, exist_ok=True)
+    os.makedirs(UPLOAD_DIR, exist_ok=True)  # ✅ important
 
     file_path = os.path.join(UPLOAD_DIR, file.filename)
 
