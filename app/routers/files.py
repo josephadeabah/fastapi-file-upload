@@ -2,9 +2,7 @@ from fastapi import APIRouter, UploadFile, File, Depends
 from sqlalchemy.orm import Session
 from app.services.file_service import save_file
 from app.models.file import File as FileModel
-from app.utils.dependencies import get_db
-from app.utils.dependencies import get_current_user
-
+from app.utils.dependencies import get_db, get_current_user
 
 router = APIRouter(prefix="/files", tags=["Files"])
 
@@ -27,4 +25,8 @@ def upload_file(
     db.commit()
     db.refresh(new_file)
 
-    return {"filename": file.filename}
+    return {
+        "filename": new_file.filename,
+        "filepath": new_file.filepath,
+        "owner_id": new_file.owner_id
+    }

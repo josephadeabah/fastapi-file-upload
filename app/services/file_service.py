@@ -3,8 +3,9 @@ import shutil
 from fastapi import UploadFile
 from app.config import UPLOAD_DIR
 
-# Save uploaded file
 def save_file(file: UploadFile):
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
+
     file_path = os.path.join(UPLOAD_DIR, file.filename)
 
     with open(file_path, "wb") as buffer:
