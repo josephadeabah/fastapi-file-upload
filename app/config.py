@@ -1,11 +1,10 @@
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60))
-UPLOAD_DIR = os.getenv("UPLOAD_DIR")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/filestorage")
+SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
+UPLOAD_DIR = os.getenv("UPLOAD_DIR", "uploads")
