@@ -50,7 +50,7 @@ A production-ready FastAPI-based REST API with complete authentication system (J
 - **AWS Free Tier Deployment** - Cost-effective cloud deployment
 - **Nginx Reverse Proxy** - Production-ready web server
 - **Systemd Service** - Auto-start and process management
-- **Let's Encrypt SSL** - Free SSL certificate integration
+- **~Let's Encrypt SSL~** - Free SSL certificate integration
 
 ### API Documentation
 - **Swagger UI** - Interactive API documentation at `/docs`
