@@ -4,29 +4,19 @@ from datetime import datetime, timedelta, timezone
 import secrets
 from app.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
 
-# Use a more compatible hashing scheme
+# Use sha256_crypt instead of bcrypt to avoid the 72-byte limitation
 pwd_context = CryptContext(
-    schemes=["bcrypt", "sha256_crypt"],
+    schemes=["sha256_crypt"],
     deprecated="auto",
-    bcrypt__rounds=12
+    sha256_crypt__rounds=100000
 )
 
 def hash_password(password: str):
-    try:
-        return pwd_context.hash(password)
-    except Exception as e:
-        # Fallback to sha256 if bcrypt fails
-        print(f"bcrypt failed: {e}, using fallback")
-        return pwd_context.hash(password, scheme="sha256_crypt")
+    return pwd_context.hash(password)
 
 def verify_password(password: str, hashed_password: str):
-    try:
-        return pwd_context.verify(password, hashed_password)
-    except Exception as e:
-        print(f"Verification failed: {e}")
-        return False
+    return pwd_context.verify(password, hashed_password)
 
-# Rest of the functions remain the same...
 def create_access_token(data: dict):
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
